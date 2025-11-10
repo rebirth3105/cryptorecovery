@@ -1,0 +1,14 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "npm",
+			"script": "build",
+			"path": "cryptorecovery.io-main/Crypto Fund Recovery Helpdesk project 1 - Copy",
+			"group": "build",
+			"problemMatcher": [],
+			"label": "npm: build - cryptorecovery.io-main/Crypto Fund Recovery Helpdesk project 1 - Copy",
+			"detail": "node scripts/build.mjs --production"
+		}
+	]
+}
