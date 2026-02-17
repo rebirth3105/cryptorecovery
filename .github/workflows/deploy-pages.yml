@@ -1,0 +1,29 @@
+name: Deploy GitHub Pages
+on:
+  push:
+    branches: [master]
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      - name: Install dependencies
+        run: |
+          if [ -f package-lock.json ]; then npm ci; else npm install; fi
+      - name: Build
+        run: npm run build --if-present
+      - name: Upload Pages Artifact (publish cryptorecovery.io-main if present)
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: |
+            cryptorecovery.io-main
+            ./dist
+            ./build
+            ./out
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v1
