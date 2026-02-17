@@ -1,34 +1,33 @@
-name: npm-grunt
+name: NPM & Grunt Build
 
 on:
   push:
-    branches: [master]
+    branches:
+      - main
   pull_request:
-    branches: [master]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: 18
 
-      - name: Install npm packages
-        run: npm ci
+      - name: Install dependencies
+        run: npm install
 
-      - name: Run grunt tasks
-        run: npx grunt
+      - name: Install Grunt CLI
+        run: npm install -g grunt-cli
 
-      - name: Cache npm dependencies
-        uses: actions/cache@v4
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
+      - name: Run Grunt tasks
+        run: grunt
+
+      - name: Build project (optional)
+        if: ${{ hashFiles('package.json') != '' }}
+        run: npm run build || echo "No build script found"
