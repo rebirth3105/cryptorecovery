@@ -39,12 +39,13 @@ const esbuildOpts = {
 
 if (isProd) {
   await esbuild.build(esbuildOpts)
+  console.log('✅ Production build complete')
 } else {
   const ctx = await esbuild.context(esbuildOpts)
   await ctx.watch()
   const { hosts, port } = await ctx.serve()
-  console.log(`Running on:`)
+  console.log(`✅ Dev server running on:`)
   hosts.forEach((host) => {
-    console.log(`http://${host}:${port}`)
+    console.log(`   http://${host}:${port}`)
   })
 }
