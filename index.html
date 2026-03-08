@@ -3,11 +3,21 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Crypto Recovery</title>
+    <meta name="description" content="Crypto Recovery Helpdesk - Professional cryptocurrency fraud recovery services" />
+    <title>Crypto Recovery Helpdesk</title>
+    <link href="main.css" rel="stylesheet" />
   </head>
   <body>
     <div id="root"></div>
-
-    <script type="module" src="/src/main.tsx"></script>
+    <!-- Production build: bundled IIFE script -->
+    <script src="main.js"></script>
+    <!-- Development auto-reload (only works during development) -->
+    <script>
+      if (typeof EventSource !== 'undefined') {
+        new EventSource('/esbuild').addEventListener('change', () => {
+          location.reload();
+        });
+      }
+    </script>
   </body>
 </html>
