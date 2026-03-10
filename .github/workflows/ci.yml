@@ -20,20 +20,25 @@ jobs:
           cache: 'npm'
           cache-dependency-path: package-lock.json
 
-      - name: Clean install
+      - name: Clean install dependencies
         run: |
           rm -rf node_modules
           npm ci
 
-      - name: Verify React versions match
+      - name: Verify React and React-DOM versions match
         run: |
           REACT=$(npm ls react --json | jq -r '.dependencies.react.version')
           REACTDOM=$(npm ls react-dom --json | jq -r '.dependencies["react-dom"].version')
+
           if [ "$REACT" != "$REACTDOM" ]; then
             echo "❌ React ($REACT) and React-DOM ($REACTDOM) versions do not match"
             exit 1
           fi
+
           echo "✔ React versions match: $REACT"
+
+      - name: Type check
+        run: npm run type-check
 
       - name: Build project
         run: npm run build
