@@ -3,7 +3,7 @@ import http from "node:http";
 import fs from "node:fs";
 import path from "node:path";
 
-const port = process.env.PORT || 5173;
+const port = 5173;
 
 const ctx = await esbuild.context({
   entryPoints: ["src/main.tsx"],
