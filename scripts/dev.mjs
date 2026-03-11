@@ -1,36 +1,34 @@
 import esbuild from "esbuild";
-import http from "node:http";
-import fs from "node:fs";
-import path from "node:path";
+import { sassPlugin } from "esbuild-style-plugin";
+import fs from "node:fs/promises";
 
-const port = 5173;
+const isProd = process.env.NODE_ENV === "production";
 
-const ctx = await esbuild.context({
-  entryPoints: ["src/main.tsx"],
-  bundle: true,
-  outfile: "dist/main.js",
-  format: "iife",
-  sourcemap: true,
-  jsx: "automatic"
-});
-
-await ctx.watch();
-
-const server = http.createServer((req, res) => {
-  const url = req.url === "/" ? "/index.html" : req.url;
-  const filePath = path.join("dist", url.replace(/^\//, ""));
-
-  fs.readFile(filePath, (err, data) => {
-    if (err) {
-      res.writeHead(404);
-      res.end("Not found");
-      return;
-    }
-    res.writeHead(200);
-    res.end(data);
+async function build() {
+  await esbuild.build({
+    entryPoints: ["src/main.tsx"],
+    bundle: true,
+    outfile: "dist/main.js",
+    format: "iife",
+    sourcemap: !isProd,
+    minify: isProd,
+    target: ["es2018"],
+    jsx: "automatic",
+    loader: {
+      ".png": "file",
+      ".svg": "file",
+      ".jpg": "file",
+      ".jpeg": "file"
+    },
+    plugins: [sassPlugin()]
   });
-});
 
-server.listen(port, () => {
-  console.log(`Dev server running at http://localhost:${port}`);
+  await fs.mkdir("dist", { recursive: true });
+  await fs.copyFile("index.html", "dist/index.html");
+  await fs.copyFile("main.css", "dist/main.css");
+}
+
+build().catch((err) => {
+  console.error(err);
+  process.exit(1);
 });
