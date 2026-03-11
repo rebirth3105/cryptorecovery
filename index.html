@@ -9,12 +9,12 @@
   </head>
   <body>
     <div id="root"></div>
-    <!-- Production build: bundled IIFE script -->
+
     <script src="main.js"></script>
-    <!-- Development auto-reload (only works during development) -->
+
     <script>
-      if (typeof EventSource !== 'undefined') {
-        new EventSource('/esbuild').addEventListener('change', () => {
+      if (typeof EventSource !== "undefined") {
+        new EventSource("/esbuild").addEventListener("change", () => {
           location.reload();
         });
       }
