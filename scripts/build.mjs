@@ -1,9 +1,6 @@
 import esbuild from "esbuild";
-import { sassPlugin } from "esbuild-style-plugin"; // if you don't use Sass, you can remove this
-import path from "node:path";
-import { fileURLToPath } from "node:url";
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+import { sassPlugin } from "esbuild-style-plugin";
+import fs from "node:fs/promises";
 
 const isProd = process.env.NODE_ENV === "production";
 
@@ -23,13 +20,9 @@ async function build() {
       ".jpg": "file",
       ".jpeg": "file"
     },
-    plugins: [
-      sassPlugin()
-    ]
+    plugins: [sassPlugin()]
   });
 
-  // copy index.html and main.css into dist
-  const fs = await import("node:fs/promises");
   await fs.mkdir("dist", { recursive: true });
   await fs.copyFile("index.html", "dist/index.html");
   await fs.copyFile("main.css", "dist/main.css");
