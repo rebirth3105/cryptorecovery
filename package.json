@@ -1,13 +1,11 @@
 {
-  "name": "cryptorecovery",
+  "name": "trustbank-frontend",
   "version": "1.0.0",
   "private": true,
-  "type": "module",
   "scripts": {
-    "dev": "node scripts/build.mjs",
-    "build": "node scripts/build.mjs --production",
-    "type-check": "tsc --noEmit",
-    "preview": "npm run build && npm start"
+    "dev": "node scripts/dev.mjs",
+    "build": "NODE_ENV=production node scripts/build.mjs",
+    "clean": "rimraf dist"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",
@@ -59,7 +57,7 @@
     "sonner": "^2.0.3",
     "tailwind-merge": "^3.2.0",
     "vaul": "^1.1.2",
-    "zod": "^4.3.6",
+    "zod": "^3.24.3",
     "zustand": "^5.0.5"
   },
   "devDependencies": {
